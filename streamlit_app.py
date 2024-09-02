@@ -20,7 +20,7 @@ else:
     # Create an OpenAI client.
     client = OpenAI(api_key=openai_api_key)
     stream = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-4o-mini",
             messages=[{"role": "user", "content": "Say this is a test"}],
             stream=True,
         )
@@ -51,7 +51,7 @@ else:
 
         # Generate an answer using the OpenAI API.
         stream = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-4o-mini",
             messages=messages,
             stream=True,
         )
