@@ -12,12 +12,18 @@ st.write(
 # Alternatively, you can store the API key in `./.streamlit/secrets.toml` and access it
 # via `st.secrets`, see https://docs.streamlit.io/develop/concepts/connections/secrets-management
 openai_api_key = st.text_input("OpenAI API Key", type="password")
-client = OpenAI(api_key=openai_api_key)
+
 if not openai_api_key:
     st.info("Please add your OpenAI API key to continue.", icon="🗝️")
 else:
 
     # Create an OpenAI client.
+    client = OpenAI(api_key=openai_api_key)
+    stream = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[{"role": "user", "content": "Say this is a test"}],
+            stream=True,
+        )
     
 
     # Let the user upload a file via `st.file_uploader`.
