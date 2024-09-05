@@ -17,7 +17,7 @@ if not st.secrets["openai_key"]:
 else:
 
     # Create an OpenAI client.
-    client = OpenAI(api_key=openai_api_key)
+    client = OpenAI(api_key=st.secrets["openai_key"])
     stream = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[{"role": "user", "content": "Say this is a test"}],
