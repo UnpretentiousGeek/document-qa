@@ -29,7 +29,7 @@ else:
 
     # Create an OpenAI client.
     client = OpenAI(api_key=st.secrets["openai_key"])
-    stream = client.chat.completions.create(
+    stream1 = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[{"role": "user", "content": "Say this is a test"}],
             stream=True,
