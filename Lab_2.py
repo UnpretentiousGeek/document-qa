@@ -23,7 +23,7 @@ st.write(
 # via `st.secrets`, see https://docs.streamlit.io/develop/concepts/connections/secrets-management
 
 
-if not openai_api_key:
+if not st.secrets["openai_key"]:
     st.info("Please add your OpenAI API key to continue.", icon="🗝️")
 else:
 
