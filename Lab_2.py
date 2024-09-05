@@ -1,5 +1,15 @@
 import streamlit as st
 from openai import OpenAI
+import PyPDF2
+
+def read_pdf(pdf_path):
+    
+      reader = PyPDF2.PdfReader(pdf_path)
+      text = ''
+      for page_num in range(len(reader.pages)):
+          page = reader.pages[page_num]
+          text += page.extract_text()
+      return text
 
 # Show title and description.
 st.title("📄 Lab 2")
