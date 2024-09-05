@@ -38,6 +38,17 @@ disabled=not uploaded_file,
 if uploaded_file and question:
 
     # Process the uploaded file and question.
+    file_extension = uploaded_file.name.split('.')[-1]
+    if file_extension in ['txt', 'md']:
+        document = uploaded_file.read().decode()
+    elif file_extension == 'pdf':
+        document = read_pdf(uploaded_file)
+    else:
+        st.error("Unsupported file type.")
+
+if uploaded_file and question:
+
+    # Process the uploaded file and question.
     document = uploaded_file.read().decode()
     messages = [
         {
