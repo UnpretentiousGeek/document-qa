@@ -72,10 +72,9 @@ else:
 
         am = st.sidebar.checkbox("Use Advanced Model")
 
+        mod = "gpt-4o-mini"
         if am:
             mod = "gpt-4o"
-        else:
-            mod = "gpt-4o-mini"
 
         # Generate an answer using the OpenAI API.
         stream = client.chat.completions.create(
