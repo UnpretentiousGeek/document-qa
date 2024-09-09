@@ -55,13 +55,13 @@ else:
         else:
           st.error("Unsupported file type.")
 
-          with st.sidebar:
+        with st.sidebar:
             ot = st.radio(
             "Choose 1 to generate summary",
             ("Summarize the document in 100 words", 
              "Summarize the document in 2 connecting paragraphs",
              "Summarize the document in 5 bullet points")
-        )
+            )
 
     
 
