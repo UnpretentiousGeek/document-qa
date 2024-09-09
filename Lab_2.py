@@ -57,10 +57,19 @@ else:
           document = read_pdf(uploaded_file)
         else:
           st.error("Unsupported file type.")
+
+    with st.sidebar:
+        ot = st.radio(
+            "Choose 1 to generate summary",
+            ("Summarize the document in 100 words", 
+             "Summarize the document in 2 connecting paragraphs",
+             "Summarize the document in 5 bullet points")
+        )
+
         messages = [
             {
                 "role": "user",
-                "content": f"Here's a document: {document} \n\n---\n\n {question}",
+                "content": f"Here's a document {ot}: {document} \n\n---\n\n {question}",
             }
         ]
 
