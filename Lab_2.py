@@ -41,13 +41,16 @@ else:
     )
     
     # Ask the user for a question via `st.text_area`.
-    question = st.text_area(
-        "Now ask a question about the document!",
-        placeholder="Can you give me a short summary?",
-        disabled=not uploaded_file,
-    )
 
-    if uploaded_file and question:
+    with st.sidebar:
+        ot = st.radio(
+            "Choose 1 to generate summary",
+            ("Summarize the document in 100 words", 
+             "Summarize the document in 2 connecting paragraphs",
+             "Summarize the document in 5 bullet points")
+        )
+
+    if uploaded_file and ot:
 
         # Process the uploaded file and question.
         file_extension = uploaded_file.name.split('.')[-1]
@@ -58,18 +61,12 @@ else:
         else:
           st.error("Unsupported file type.")
 
-    with st.sidebar:
-        ot = st.radio(
-            "Choose 1 to generate summary",
-            ("Summarize the document in 100 words", 
-             "Summarize the document in 2 connecting paragraphs",
-             "Summarize the document in 5 bullet points")
-        )
+    
 
         messages = [
             {
                 "role": "user",
-                "content": f"Here's a document {ot}: {document} \n\n---\n\n {question}",
+                "content": f"Here's a document : {document} \n\n---\n\n {ot}",
             }
         ]
 
