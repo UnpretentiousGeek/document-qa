@@ -42,15 +42,9 @@ else:
     
     # Ask the user for a question via `st.text_area`.
 
-    with st.sidebar:
-        ot = st.radio(
-            "Choose 1 to generate summary",
-            ("Summarize the document in 100 words", 
-             "Summarize the document in 2 connecting paragraphs",
-             "Summarize the document in 5 bullet points")
-        )
+    
 
-    if uploaded_file and ot:
+    if uploaded_file:
 
         # Process the uploaded file and question.
         file_extension = uploaded_file.name.split('.')[-1]
@@ -60,6 +54,14 @@ else:
           document = read_pdf(uploaded_file)
         else:
           st.error("Unsupported file type.")
+
+          with st.sidebar:
+            ot = st.radio(
+            "Choose 1 to generate summary",
+            ("Summarize the document in 100 words", 
+             "Summarize the document in 2 connecting paragraphs",
+             "Summarize the document in 5 bullet points")
+        )
 
     
 
