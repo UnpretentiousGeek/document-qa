@@ -1,15 +1,5 @@
 import streamlit as st
 from openai import OpenAI
-import PyPDF2
-
-def read_pdf(pdf_path):
-    
-      reader = PyPDF2.PdfReader(pdf_path)
-      text = ''
-      for page_num in range(len(reader.pages)):
-          page = reader.pages[page_num]
-          text += page.extract_text()
-      return text
 
 # Show title and description.
 st.title("📄 MY Document question answering")
@@ -21,25 +11,26 @@ st.write(
 # Ask user for their OpenAI API key via `st.text_input`.
 # Alternatively, you can store the API key in `./.streamlit/secrets.toml` and access it
 # via `st.secrets`, see https://docs.streamlit.io/develop/concepts/connections/secrets-management
+openai_api_key = st.text_input("OpenAI API Key", type="password")
 
-
-if not st.secrets["openai_key"]:
+if not openai_api_key:
     st.info("Please add your OpenAI API key to continue.", icon="🗝️")
 else:
 
     # Create an OpenAI client.
-    client = OpenAI(api_key=st.secrets["openai_key"])
-    stream1 = client.chat.completions.create(
+    client = OpenAI(api_key=openai_api_key)
+    stream = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[{"role": "user", "content": "Say this is a test"}],
             stream=True,
         )
     
+
     # Let the user upload a file via `st.file_uploader`.
     uploaded_file = st.file_uploader(
-        "Upload a document (.txt, .md or .pdf)", type=("txt", "md", "pdf")
+        "Upload a document (.txt or .md)", type=("txt", "md")
     )
-    
+
     # Ask the user for a question via `st.text_area`.
     question = st.text_area(
         "Now ask a question about the document!",
@@ -50,13 +41,7 @@ else:
     if uploaded_file and question:
 
         # Process the uploaded file and question.
-        file_extension = uploaded_file.name.split('.')[-1]
-        if file_extension in ['txt', 'md']:
-          document = uploaded_file.read().decode()
-        elif file_extension == 'pdf':
-          document = read_pdf(uploaded_file)
-        else:
-          st.error("Unsupported file type.")
+        document = uploaded_file.read().decode()
         messages = [
             {
                 "role": "user",
