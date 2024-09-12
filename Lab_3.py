@@ -24,7 +24,7 @@ for msg in st.session_state.messages:
     chat_msg.write(msg["content"])
 
 if prompt := st.chat_input("What is up?"):
-st.session_state.messages.append({"role": "user", "content": prompt})
+    st.session_state.messages.append({"role": "user", "content": prompt})
 
 with st.chat_message("user"):
     st.markdown(prompt)
