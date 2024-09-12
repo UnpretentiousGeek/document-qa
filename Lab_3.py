@@ -26,17 +26,17 @@ for msg in st.session_state.messages:
 if prompt := st.chat_input("What is up?"):
     st.session_state.messages.append({"role": "user", "content": prompt})
 
-with st.chat_message("user"):
-    st.markdown(prompt)
+    with st.chat_message("user"):
+        st.markdown(prompt)
 
-client = st.session_state.client
-stream = client.chat.completions.create(
-    model=model_to_use,
-    messages=st.session_state.messages,
-    stream=True
-)
+    client = st.session_state.client
+    stream = client.chat.completions.create(
+        model=model_to_use,
+        messages=st.session_state.messages,
+        stream=True
+    )
 
-with st.chat_message("assistant"):
-    response = st.write_stream(stream)
+    with st.chat_message("assistant"):
+        response = st.write_stream(stream)
 
-st.session_state.messages.append({"role": "assistant", "content": response})
+    st.session_state.messages.append({"role": "assistant", "content": response})
