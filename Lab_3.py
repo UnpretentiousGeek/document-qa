@@ -7,7 +7,7 @@ openAI_model = st.sidebar.selectbox( "Which Model?" ,
 ( "mini", "regular") )
 
 if openAI_model == 'mini':
-    model_to_use = "gpt-4o—mini"
+    model_to_use = "gpt-4o-mini"
 else:
     model_to_use = "gpt-4o"
 # Create an OpenAI client.
