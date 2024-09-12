@@ -16,8 +16,8 @@ if 'client' not in st.session_state:
     st.session_state.client = OpenAI(api_key=api_key)
 
 if "messages" not in st.session_state:
-    st.session_state["messages"] = \ 
-        [{"role": "assistant", "content": "How can I help you?"}]
+    st.session_state["messages"] = \
+    [{"role": "assistant", "content": "How can I help you?"}]
 
 for msg in st.session_state.messages:
     chat_msg = st.chat_message(msg["role"])
