@@ -36,8 +36,9 @@ if "messages" not in st.session_state:
      {"role": "assistant", "content": "How can I help you?"}]
 
 for msg in st.session_state.messages:
-    chat_msg = st.chat_message(msg["role"])
-    chat_msg.write(msg["content"])
+    if msg["role"] != "system":    
+        chat_msg = st.chat_message(msg["role"])
+        chat_msg.write(msg["content"])
 
 if prompt := st.chat_input("What is up?"):
     st.session_state.messages.append({"role": "user", "content": prompt})
