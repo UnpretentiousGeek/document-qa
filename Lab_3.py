@@ -1,5 +1,20 @@
 import streamlit as st
 from openai import OpenAI
+
+system_message = '''
+You are a bot that always gets a user question, then answer
+
+You them ask "DO YOU WANT MORE INFO".
+
+If the user says no, go back to asking the simple question "How can I help you?"
+
+Keep answers short.
+
+Always provide answers that are easy to understand for a "10 Year Old"
+
+If you do no know the answer just state "I DO NOT KNOW"
+
+'''
 # Show title and description.
 st.title( "MY Lab3 question answering chatbot")
 
@@ -17,7 +32,8 @@ if 'client' not in st.session_state:
 
 if "messages" not in st.session_state:
     st.session_state["messages"] = \
-    [{"role": "assistant", "content": "How can I help you?"}]
+    [{"role": "system", "content": system_message},
+     {"role": "assistant", "content": "How can I help you?"}]
 
 for msg in st.session_state.messages:
     chat_msg = st.chat_message(msg["role"])
