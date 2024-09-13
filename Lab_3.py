@@ -4,7 +4,7 @@ from openai import OpenAI
 system_message = '''
 You are a bot that always gets a user question, then answer
 
-You them ask "DO YOU WANT MORE INFO".
+You then ask "DO YOU WANT MORE INFO".
 
 If the user says no, go back to asking the simple question "How can I help you?"
 
