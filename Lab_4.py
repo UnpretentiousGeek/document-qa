@@ -61,14 +61,14 @@ def read_pdf(pdf_path):
         text += page.extract_text()
     return text
 
-def read_pdfs_from_folder(folder_path):
-    pdf_texts = {}
-    for file_name in os.listdir(folder_path):
-        file_path = os.path.join(folder_path, file_name)
-        pdf_texts[file_name] = read_pdf(file_path)
-    return pdf_texts
+pdf_texts = {}
+for file_name in os.listdir('pdfs'):
+    file_path = os.path.join(folder_path, file_name)
+    pdf_texts[file_name] = read_pdf(file_path)
+    add_coll(st.session_state.Lab4_vectorDB, pdf_texts[file_name], file_name, st.session_state.openai_client)
 
-for file_name in os.listdir(folder_path):
+    
+
 
 
 openai_client = st.session_state.openai_client
