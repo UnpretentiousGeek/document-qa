@@ -62,8 +62,8 @@ def read_pdf(pdf_path):
     return text
 
 pdf_texts = {}
-for file_name in os.listdir('/pdfs'):
-    file_path = os.path.join('/pdfs', file_name)
+for file_name in os.listdir('pdfs'):
+    file_path = os.path.join('pdfs', file_name)
     pdf_texts[file_name] = read_pdf(file_path)
     add_coll(st.session_state.Lab4_vectorDB, pdf_texts[file_name], file_name, st.session_state.openai_client)
 
