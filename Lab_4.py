@@ -1,5 +1,16 @@
 import streamlit as st
 from openai import OpenAI
+import os
+import PyPDF2
+
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3']= sys.modules.pop('pysqlite3')
+
+import chromadb
+chroma_client = chromadb.PersistentClient(path="/embeddings")
+
+
 
 system_message = '''
 You are a bot that always gets a user question, then answer
@@ -20,45 +31,62 @@ If you do no know the answer just state "I DO NOT KNOW"
 # Show title and description.
 st.title( "MY Lab3 question answering chatbot")
 
-openAI_model = st.sidebar.selectbox( "Which Model?" ,
-( "mini", "regular") )
-
-if openAI_model == 'mini':
-    model_to_use = "gpt-4o-mini"
-else:
-    model_to_use = "gpt-4o"
-# Create an OpenAI client.
-if 'client' not in st.session_state:
+if 'openai_client' not in st.session_state:
     api_key = st.secrets['openai_key']
-    st.session_state.client = OpenAI(api_key=api_key)
+    st.session_state.openai_client = OpenAI(api_key=api_key)
 
-if "messages" not in st.session_state:
-    st.session_state["messages"] = \
-    [{"role": "system", "content": system_message},
-     {"role": "assistant", "content": "How can I help you?"}]
 
-for msg in st.session_state.messages:
-    if msg["role"] != "system":    
-        chat_msg = st.chat_message(msg["role"])
-        chat_msg.write(msg["content"])
+if 'Lab4_vectorDB' not in st.session_state:
+    st.session_state.Lab4_vectorDB = chroma_client.get_or_create_collection('Lab4Collection')
 
-if prompt := st.chat_input("What is up?"):
-    st.session_state.messages.append({"role": "user", "content": prompt})
+def add_coll(collection, text, filename, client):
+    response = client.embeddings.create(
+        input = text,
+        model = "text-embedding-3-smal"
+    )
+    embedding = response.data[0].embedding
 
-    with st.chat_message("user"):
-        st.markdown(prompt)
-
-    client = st.session_state.client
-    stream = client.chat.completions.create(
-        model=model_to_use,
-        messages=st.session_state.messages,
-        stream=True
+    collection.add(
+        documents=[text],
+        ids = [filename],
+        embeddings = embedding
     )
 
-    with st.chat_message("assistant"):
-        response = st.write_stream(stream)
+def read_pdf(pdf_path):
+    
+    reader = PyPDF2.PdfReader(pdf_path)
+    text = ''
+    for page_num in range(len(reader.pages)):
+        page = reader.pages[page_num]
+        text += page.extract_text()
+    return text
 
-    st.session_state.messages.append({"role": "assistant", "content": response})
+def read_pdfs_from_folder(folder_path):
+    pdf_texts = {}
+    for file_name in os.listdir(folder_path):
+        file_path = os.path.join(folder_path, file_name)
+        pdf_texts[file_name] = read_pdf(file_path)
+    return pdf_texts
 
-    if len(st.session_state.messages) > 5:
-        st.session_state.messages = st.session_state.messages[-5:]
+for i in range(len())
+add_coll(st.session_state.Lab4_vectorDB, text, filename, client)
+topic = st.sidebar.selectbox("Topic",
+                              ("Generative AI", "Text Mining", "Data Science Overview"))
+
+openai_client = st.session_state.openai_client
+response = openai_client.embeddings.create(
+    input = topic,
+    model = "text-embedding-3-smal"
+)
+
+query_embedding = response.data[0].embedding
+
+result = st.session_state.Lab4_vectorDB.query(
+    query_embeddings = [query_embedding],
+    n_results=3
+)
+
+for i in range(len(result['doucments'][0])):
+    doc = result['doucments'][0][i]
+    doc_id = result['ids'][0]
+    st.write(f"The following file/syllabus might be helpful: {doc_id}")
