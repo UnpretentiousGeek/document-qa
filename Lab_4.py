@@ -8,7 +8,7 @@ import sys
 sys.modules['sqlite3']= sys.modules.pop('pysqlite3')
 
 import chromadb
-chroma_client = chromadb.PersistentClient(path="/embeddings")
+chroma_client = chromadb.PersistentClient(path="~/embeddings")
 
 
 
@@ -67,6 +67,8 @@ def read_pdfs_from_folder(folder_path):
         file_path = os.path.join(folder_path, file_name)
         pdf_texts[file_name] = read_pdf(file_path)
     return pdf_texts
+
+for file_name in os.listdir(folder_path):
 
 
 openai_client = st.session_state.openai_client
