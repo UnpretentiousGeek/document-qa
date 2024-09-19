@@ -68,10 +68,6 @@ def read_pdfs_from_folder(folder_path):
         pdf_texts[file_name] = read_pdf(file_path)
     return pdf_texts
 
-for i in range(len())
-add_coll(st.session_state.Lab4_vectorDB, text, filename, client)
-topic = st.sidebar.selectbox("Topic",
-                              ("Generative AI", "Text Mining", "Data Science Overview"))
 
 openai_client = st.session_state.openai_client
 response = openai_client.embeddings.create(
