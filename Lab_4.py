@@ -10,7 +10,7 @@ sys.modules['sqlite3']= sys.modules.pop('pysqlite3')
 import chromadb
 chroma_client = chromadb.PersistentClient(path="~/embeddings")
 
-st.title( "MY Lab3 question answering chatbot")
+st.title( "Sun's Lab 3")
 
 
 def add_coll(collection, text, filename, client):
