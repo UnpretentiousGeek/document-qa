@@ -10,24 +10,6 @@ sys.modules['sqlite3']= sys.modules.pop('pysqlite3')
 import chromadb
 chroma_client = chromadb.PersistentClient(path="~/embeddings")
 
-
-
-system_message = '''
-You are a bot that always gets a user question, then answer
-
-You then ask "DO YOU WANT MORE INFO".
-
-Keep on asking "DO YOU WANT MORE INFO" after each answer until user say no.
-
-If the user says no, go back to asking the simple question "How can I help you?".
-
-Keep answers short.
-
-Always provide answers that are easy to understand for a "10 Year Old"
-
-If you do no know the answer just state "I DO NOT KNOW"
-
-'''
 # Show title and description.
 st.title( "MY Lab3 question answering chatbot")
 
@@ -68,7 +50,7 @@ for file_name in os.listdir('pdfs'):
     add_coll(st.session_state.Lab4_vectorDB, pdf_texts[file_name], file_name, st.session_state.openai_client)
 
     
-
+topic = st.sidebar.selectbox("Topic", ( (“Generative AI”, “Text Mining”, “Data Science Overview” ("Generative AI", "Text Mining", "Data Science Overview"))
 
 
 openai_client = st.session_state.openai_client
