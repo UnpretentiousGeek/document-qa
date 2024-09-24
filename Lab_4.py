@@ -90,5 +90,4 @@ if st.sidebar.button("Re-Scan"):
 if st.sidebar.button("Delete Collection"):
     st.write(f"The Collection has been successfully deleted")
     idss = st.session_state.Lab4_vectorDB.get(include=["documents"])['ids']
-    st.write(idss)
     chroma_client.get_or_create_collection('Lab4Collection').delete(ids=idss)
