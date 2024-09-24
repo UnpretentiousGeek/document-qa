@@ -20,7 +20,7 @@ if 'openai_client' not in st.session_state:
 if 'Lab4_vectorDB' not in st.session_state:
     st.session_state.Lab4_vectorDB = chroma_client.get_or_create_collection('Lab4Collection')
 
-st.write(f"The Collection have st.session_state.Lab4_vectorDB.count() file/syllabus might be helpful")
+st.write(f"The Collection have {st.session_state.Lab4_vectorDB.count()} file/syllabus might be helpful")
 
 def add_coll(collection, text, filename, client):
     response = client.embeddings.create(
