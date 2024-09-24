@@ -49,7 +49,8 @@ if st.button("Yes"):
     uploaded_file = st.file_uploader(
         "Upload a document (.pdf)", type=("pdf")
     )
-    add_coll(st.session_state.Lab4_vectorDB, read_pdf(uploaded_file), uploaded_file, st.session_state.openai_client)
+    if uploaded_file:
+        add_coll(st.session_state.Lab4_vectorDB, read_pdf(uploaded_file), uploaded_file, st.session_state.openai_client)
 
 if st.sidebar.button("Re-Scan"):
     pdf_texts = {}
