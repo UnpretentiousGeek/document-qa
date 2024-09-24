@@ -67,6 +67,6 @@ result = st.session_state.Lab4_vectorDB.query(
 )
 
 for i in range(len(result['documents'][0])):
-    doc = result['doucments'][0][i]
+    doc = result['documents'][0][i]
     doc_id = result['ids'][0]
     st.write(f"The following file/syllabus might be helpful: {doc_id}")
