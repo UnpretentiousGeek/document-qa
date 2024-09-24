@@ -12,7 +12,6 @@ chroma_client = chromadb.PersistentClient(path="~/embeddings")
 
 # Show title and description.
 st.title( "MY Lab3 question answering chatbot")
-st.subheader("hello")
 if 'openai_client' not in st.session_state:
     api_key = st.secrets['openai_key']
     st.session_state.openai_client = OpenAI(api_key=api_key)
@@ -20,6 +19,8 @@ if 'openai_client' not in st.session_state:
 
 if 'Lab4_vectorDB' not in st.session_state:
     st.session_state.Lab4_vectorDB = chroma_client.get_or_create_collection('Lab4Collection')
+
+st.write(f"The Collection have st.session_state.Lab4_vectorDB.count() file/syllabus might be helpful")
 
 def add_coll(collection, text, filename, client):
     response = client.embeddings.create(
