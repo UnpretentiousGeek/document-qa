@@ -79,4 +79,3 @@ for i in range(len(result['documents'][0])):
     doc = result['documents'][0][i]
     doc_id = result['ids'][0][i]
     st.write(f"The following file/syllabus might be helpful: {doc_id}")
-    st.write(uploaded_file)
