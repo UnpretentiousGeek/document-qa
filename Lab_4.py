@@ -52,8 +52,6 @@ if 'Lab4_vectorDB' not in st.session_state:
         scan()
         st.session_state.scanned = True
 
-if st.sidebar.button("Re-Scan"):
-    st.write(f"The Collection have {chroma_client.get_or_create_collection('Lab4Collection').count()} files.")
 topic = st.sidebar.selectbox("Topic", ("Generative AI", "Text Mining", "Data Science Overview"))
 
 openai_client = st.session_state.openai_client
@@ -82,6 +80,9 @@ if st.sidebar.button("+ Add Files"):
     
     if uploaded_file:
         add_coll(st.session_state.Lab4_vectorDB, read_pdf(uploaded_file), uploaded_file.name, st.session_state.openai_client)
-        st.write(f"File {uploaded_file.name} has been added to the collection.")
+        st.success(f"File {uploaded_file.name} has been added to the collection.")
     else:
         st.write("Please upload a file first.")
+
+if st.sidebar.button("Re-Scan"):
+    st.write(f"The Collection have {chroma_client.get_or_create_collection('Lab4Collection').count()} files.")
