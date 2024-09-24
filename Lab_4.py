@@ -79,6 +79,7 @@ if st.sidebar.button("+ Add Files"):
         "Upload a document (.pdf)", type=("pdf")
     )
     if uploaded_file:
-        add_coll(st.session_state.Lab4_vectorDB, read_pdf(uploaded_file), "1", st.session_state.openai_client)
+        add_coll(st.session_state.Lab4_vectorDB, read_pdf(uploaded_file), uploaded_file.name, st.session_state.openai_client)
+        st.write(f"File {uploaded_file.name} has been added to the collection.")
 
 
