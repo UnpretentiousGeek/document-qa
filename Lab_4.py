@@ -50,7 +50,7 @@ for file_name in os.listdir('pdfs'):
     add_coll(st.session_state.Lab4_vectorDB, pdf_texts[file_name], file_name, st.session_state.openai_client)
 
     
-topic = st.sidebar.selectbox("Topic", ( (“Generative AI”, “Text Mining”, “Data Science Overview” ("Generative AI", "Text Mining", "Data Science Overview"))
+topic = st.sidebar.selectbox("Topic", ("Generative AI", "Text Mining", "Data Science Overview"))
 
 
 openai_client = st.session_state.openai_client
