@@ -85,13 +85,13 @@ for i in range(len(result['documents'][0])):
     st.write(f"The following file/syllabus might be helpful: {doc_id}")
 
 
-
-if st.sidebar.button("+ Add Files"):
-    uploaded_file = st.file_uploader(
+uploaded_file = st.sidebar.file_uploader(
         "Upload a document (.pdf)", type=("pdf")
     )
+if st.sidebar.button("+ Add Files"):
+    
     if uploaded_file:
         add_coll(st.session_state.Lab4_vectorDB, read_pdf(uploaded_file), uploaded_file.name, st.session_state.openai_client)
         st.write(f"File {uploaded_file.name} has been added to the collection.")
-
-
+    else:
+        st.write("Please upload a file first.")
