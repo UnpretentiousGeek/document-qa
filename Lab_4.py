@@ -49,8 +49,7 @@ def read_pdf(file):
     
     return text
 
-if 'Lab4_vectorDB' not in st.session_state:
-    st.session_state.Lab4_vectorDB = chroma_client.get_or_create_collection('Lab4Collection')
+def scan():
     pdf_texts = {}
     for file_name in os.listdir('pdfs'):
         file_path = os.path.join('pdfs', file_name)
@@ -59,6 +58,12 @@ if 'Lab4_vectorDB' not in st.session_state:
     st.write(f"The Collection have {chroma_client.get_or_create_collection('Lab4Collection').count()} files.")
 
 
+if 'Lab4_vectorDB' not in st.session_state:
+    st.session_state.Lab4_vectorDB = chroma_client.get_or_create_collection('Lab4Collection')
+    scan()
+
+if st.sidebar.button("Re-Scan"):
+    st.write(f"The Collection have {chroma_client.get_or_create_collection('Lab4Collection').count()} files.")
 topic = st.sidebar.selectbox("Topic", ("Generative AI", "Text Mining", "Data Science Overview"))
 
 openai_client = st.session_state.openai_client
@@ -80,13 +85,6 @@ for i in range(len(result['documents'][0])):
     st.write(f"The following file/syllabus might be helpful: {doc_id}")
 
 
-if st.sidebar.button("Re-Scan"):
-    pdf_texts = {}
-    for file_name in os.listdir('pdfs'):
-        file_path = os.path.join('pdfs', file_name)
-        pdf_texts[file_name] = read_pdf(file_path)
-        add_coll(st.session_state.Lab4_vectorDB, pdf_texts[file_name], file_name, st.session_state.openai_client)
-    st.write(f"The Collection have {chroma_client.get_or_create_collection('Lab4Collection').count()} files.")
 
 if st.sidebar.button("+ Add Files"):
     uploaded_file = st.file_uploader(
