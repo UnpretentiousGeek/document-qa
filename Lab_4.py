@@ -29,13 +29,24 @@ def add_coll(collection, text, filename, client):
         embeddings = embedding
     )
 
-def read_pdf(pdf_path):
+def read_pdf(file):
+    # Accept both file paths and file-like objects (like uploaded files)
+    if isinstance(file, str):
+        # Handle file path (local)
+        with open(file, "rb") as f:
+            reader = PyPDF2.PdfReader(f)
+            text = ''
+            for page_num in range(len(reader.pages)):
+                page = reader.pages[page_num]
+                text += page.extract_text()
+    else:
+        # Handle in-memory file (uploaded via Streamlit)
+        reader = PyPDF2.PdfReader(file)
+        text = ''
+        for page_num in range(len(reader.pages)):
+            page = reader.pages[page_num]
+            text += page.extract_text()
     
-    reader = PyPDF2.PdfReader(pdf_path)
-    text = ''
-    for page_num in range(len(reader.pages)):
-        page = reader.pages[page_num]
-        text += page.extract_text()
     return text
 
 if 'Lab4_vectorDB' not in st.session_state:
