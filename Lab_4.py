@@ -24,7 +24,7 @@ if 'Lab4_vectorDB' not in st.session_state:
 def add_coll(collection, text, filename, client):
     response = client.embeddings.create(
         input = text,
-        model = "text-embedding-3-smal"
+        model = "text-embedding-3-small"
     )
     embedding = response.data[0].embedding
 
