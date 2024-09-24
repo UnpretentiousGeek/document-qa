@@ -46,7 +46,7 @@ if uploaded_file:
         document = read_pdf(uploaded_file)
     else:
         st.error("Unsupported file type.")
-
+    
     with st.sidebar:
         ot = st.radio(
         "Choose 1 to generate summary",

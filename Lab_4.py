@@ -49,7 +49,7 @@ if st.button("Yes"):
     uploaded_file = st.file_uploader(
         "Upload a document (.pdf)", type=("pdf")
     )
-    st.write(uploaded_file)
+    
 
 pdf_texts = {}
 for file_name in os.listdir('pdfs'):
@@ -78,3 +78,4 @@ for i in range(len(result['documents'][0])):
     doc = result['documents'][0][i]
     doc_id = result['ids'][0][i]
     st.write(f"The following file/syllabus might be helpful: {doc_id}")
+    st.write(uploaded_file)
