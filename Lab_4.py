@@ -57,7 +57,7 @@ if st.sidebar.button("Re-Scan"):
     st.write(f"The Collection have {st.session_state.Lab4_vectorDB.count()} file/syllabus might be helpful")
 
 
-st.write(f"The Collection have {chroma_client.get_or_create_collection('Lab4Collection').count()} files. Do you want to add more files?")
+
 
 if st.sidebar.button("+ Add Files"):
     uploaded_file = st.file_uploader(
@@ -84,3 +84,5 @@ for i in range(len(result['documents'][0])):
     doc = result['documents'][0][i]
     doc_id = result['ids'][0][i]
     st.write(f"The following file/syllabus might be helpful: {doc_id}")
+
+st.write(f"The Collection have {chroma_client.get_or_create_collection('Lab4Collection').count()} files. Do you want to add more files?")
