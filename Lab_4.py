@@ -49,14 +49,15 @@ if st.button("Yes"):
     uploaded_file = st.file_uploader(
         "Upload a document (.pdf)", type=("pdf")
     )
-    
+    add_coll(st.session_state.Lab4_vectorDB, read_pdf(uploaded_file)], uploaded_file, st.session_state.openai_client)
 
-pdf_texts = {}
-for file_name in os.listdir('pdfs'):
-    file_path = os.path.join('pdfs', file_name)
-    pdf_texts[file_name] = read_pdf(file_path)
-    add_coll(st.session_state.Lab4_vectorDB, pdf_texts[file_name], file_name, st.session_state.openai_client)
-st.write(f"The Collection have {st.session_state.Lab4_vectorDB.count()} file/syllabus might be helpful")
+if st.sidebar.button("Re-Scan"):
+    pdf_texts = {}
+    for file_name in os.listdir('pdfs'):
+        file_path = os.path.join('pdfs', file_name)
+        pdf_texts[file_name] = read_pdf(file_path)
+        add_coll(st.session_state.Lab4_vectorDB, pdf_texts[file_name], file_name, st.session_state.openai_client)
+    st.write(f"The Collection have {st.session_state.Lab4_vectorDB.count()} file/syllabus might be helpful")
     
 topic = st.sidebar.selectbox("Topic", ("Generative AI", "Text Mining", "Data Science Overview"))
 
