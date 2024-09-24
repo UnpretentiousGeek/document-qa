@@ -56,17 +56,6 @@ if st.sidebar.button("Re-Scan"):
         add_coll(st.session_state.Lab4_vectorDB, pdf_texts[file_name], file_name, st.session_state.openai_client)
     st.write(f"The Collection have {st.session_state.Lab4_vectorDB.count()} file/syllabus might be helpful")
 
-
-
-
-if st.sidebar.button("+ Add Files"):
-    uploaded_file = st.file_uploader(
-        "Upload a document (.pdf)", type=("pdf")
-    )
-    if uploaded_file:
-        add_coll(st.session_state.Lab4_vectorDB, read_pdf(uploaded_file), uploaded_file, st.session_state.openai_client)
-
-
 openai_client = st.session_state.openai_client
 response = openai_client.embeddings.create(
     input = topic,
@@ -86,3 +75,13 @@ for i in range(len(result['documents'][0])):
     st.write(f"The following file/syllabus might be helpful: {doc_id}")
 
 st.write(f"The Collection have {chroma_client.get_or_create_collection('Lab4Collection').count()} files. Do you want to add more files?")
+
+
+if st.sidebar.button("+ Add Files"):
+    uploaded_file = st.file_uploader(
+        "Upload a document (.pdf)", type=("pdf")
+    )
+    if uploaded_file:
+        add_coll(st.session_state.Lab4_vectorDB, read_pdf(uploaded_file), uploaded_file, st.session_state.openai_client)
+
+
