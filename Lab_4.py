@@ -10,11 +10,8 @@ sys.modules['sqlite3']= sys.modules.pop('pysqlite3')
 import chromadb
 chroma_client = chromadb.PersistentClient(path="~/embeddings")
 
-# Show title and description.
 st.title( "MY Lab3 question answering chatbot")
-if 'openai_client' not in st.session_state:
-    api_key = st.secrets['openai_key']
-    st.session_state.openai_client = OpenAI(api_key=api_key)
+
 
 def add_coll(collection, text, filename, client):
     response = client.embeddings.create(
@@ -44,6 +41,9 @@ def scan():
         pdf_texts[file_name] = read_pdf(file_path)
         add_coll(st.session_state.Lab4_vectorDB, pdf_texts[file_name], file_name, st.session_state.openai_client)
 
+if 'openai_client' not in st.session_state:
+    api_key = st.secrets['openai_key']
+    st.session_state.openai_client = OpenAI(api_key=api_key)
 
 if 'Lab4_vectorDB' not in st.session_state:
     st.session_state.Lab4_vectorDB = chroma_client.get_or_create_collection('Lab4Collection')
@@ -82,7 +82,7 @@ if st.sidebar.button("+ Add Files"):
         add_coll(st.session_state.Lab4_vectorDB, read_pdf(uploaded_file), uploaded_file.name, st.session_state.openai_client)
         st.success(f"File {uploaded_file.name} has been added to the collection.")
     else:
-        st.write("Please upload a file first.")
+        st.error("Please upload a file first.")
 
 if st.sidebar.button("Re-Scan"):
     st.write(f"The Collection have {chroma_client.get_or_create_collection('Lab4Collection').count()} files.")
