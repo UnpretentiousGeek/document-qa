@@ -57,16 +57,15 @@ if st.sidebar.button("Re-Scan"):
     st.write(f"The Collection have {st.session_state.Lab4_vectorDB.count()} file/syllabus might be helpful")
 
 
-st.write(f"The Collection have {st.session_state.Lab4_vectorDB.count()} files.")
-answer = st.checkbox("Do you want to add more files?") 
+st.write(f"The Collection have {st.session_state.Lab4_vectorDB.count()} files. Do you want to add more files?")
 
-if answer:
+if st.button("Yes"):
     uploaded_file = st.file_uploader(
         "Upload a document (.pdf)", type=("pdf")
     )
     if uploaded_file:
         add_coll(st.session_state.Lab4_vectorDB, read_pdf(uploaded_file), uploaded_file, st.session_state.openai_client)
-else:
+elif st.button("No"):
 
 
     openai_client = st.session_state.openai_client
