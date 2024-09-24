@@ -57,8 +57,10 @@ if st.sidebar.button("Re-Scan"):
     st.write(f"The Collection have {st.session_state.Lab4_vectorDB.count()} file/syllabus might be helpful")
 
 
-st.write(f"The Collection have {st.session_state.Lab4_vectorDB.count()} files. Do you want to add more files?")
-if st.button("Yes"):
+st.write(f"The Collection have {st.session_state.Lab4_vectorDB.count()} files.")
+answer = st.checkbox("Do you want to add more files?") 
+
+if answer:
     uploaded_file = st.file_uploader(
         "Upload a document (.pdf)", type=("pdf")
     )
