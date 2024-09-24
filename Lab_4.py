@@ -20,7 +20,7 @@ if 'openai_client' not in st.session_state:
 if 'Lab4_vectorDB' not in st.session_state:
     st.session_state.Lab4_vectorDB = chroma_client.get_or_create_collection('Lab4Collection')
 
-st.write(f"The Collection have {st.session_state.Lab4_vectorDB.count()} file/syllabus might be helpful")
+
 
 def add_coll(collection, text, filename, client):
     response = client.embeddings.create(
@@ -43,6 +43,13 @@ def read_pdf(pdf_path):
         page = reader.pages[page_num]
         text += page.extract_text()
     return text
+
+st.write(f"The Collection have {st.session_state.Lab4_vectorDB.count()} files. Do you want to add more files?")
+if st.button("Yes"):
+    uploaded_file = st.file_uploader(
+        "Upload a document (.pdf)", type=("pdf")
+    )
+    st.write(uploaded_file)
 
 pdf_texts = {}
 for file_name in os.listdir('pdfs'):
