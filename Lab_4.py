@@ -74,7 +74,7 @@ for i in range(len(result['documents'][0])):
     doc_id = result['ids'][0][i]
     st.write(f"The following file/syllabus might be helpful: {doc_id}")
 
-st.write(f"The Collection have {chroma_client.get_or_create_collection('Lab4Collection').count()} files. Do you want to add more files?")
+st.write(f"The Collection have {chroma_client.get_collection('Lab4Collection').count()} files. Do you want to add more files?")
 
 
 if st.sidebar.button("+ Add Files"):
