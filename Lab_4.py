@@ -12,7 +12,7 @@ chroma_client = chromadb.PersistentClient(path="~/embeddings")
 
 # Show title and description.
 st.title( "MY Lab3 question answering chatbot")
-
+st.subheader("hello")
 if 'openai_client' not in st.session_state:
     api_key = st.secrets['openai_key']
     st.session_state.openai_client = OpenAI(api_key=api_key)
