@@ -57,31 +57,28 @@ if st.sidebar.button("Re-Scan"):
     st.write(f"The Collection have {st.session_state.Lab4_vectorDB.count()} file/syllabus might be helpful")
 
 
-st.write(f"The Collection have {st.session_state.Lab4_vectorDB.count()} files. Do you want to add more files?")
-
 if st.sidebar.button("+ Add Files"):
     uploaded_file = st.file_uploader(
         "Upload a document (.pdf)", type=("pdf")
     )
     if uploaded_file:
         add_coll(st.session_state.Lab4_vectorDB, read_pdf(uploaded_file), uploaded_file, st.session_state.openai_client)
-elif st.button("No"):
 
 
-    openai_client = st.session_state.openai_client
-    response = openai_client.embeddings.create(
-        input = topic,
-        model = "text-embedding-3-small"
-    )
+openai_client = st.session_state.openai_client
+response = openai_client.embeddings.create(
+    input = topic,
+    model = "text-embedding-3-small"
+)
 
-    query_embedding = response.data[0].embedding
+query_embedding = response.data[0].embedding
 
-    result = st.session_state.Lab4_vectorDB.query(
-        query_embeddings = [query_embedding],
-        n_results=3
-    )
+result = st.session_state.Lab4_vectorDB.query(
+    query_embeddings = [query_embedding],
+    n_results=3
+)
 
-    for i in range(len(result['documents'][0])):
-        doc = result['documents'][0][i]
-        doc_id = result['ids'][0][i]
-        st.write(f"The following file/syllabus might be helpful: {doc_id}")
+for i in range(len(result['documents'][0])):
+    doc = result['documents'][0][i]
+    doc_id = result['ids'][0][i]
+    st.write(f"The following file/syllabus might be helpful: {doc_id}")
