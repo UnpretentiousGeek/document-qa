@@ -56,7 +56,7 @@ topic = st.sidebar.selectbox("Topic", ("Generative AI", "Text Mining", "Data Sci
 openai_client = st.session_state.openai_client
 response = openai_client.embeddings.create(
     input = topic,
-    model = "text-embedding-3-smal"
+    model = "text-embedding-3-small"
 )
 
 query_embedding = response.data[0].embedding
