@@ -115,8 +115,8 @@ if prompt := st.chat_input("What is up?"):
     with st.chat_message("user"):
         st.markdown(prompt)
 
-    client = st.session_state.client
-    stream = client.chat.completions.create(
+
+    stream = openai_client.chat.completions.create(
         model="gpt-4o-mini",
         messages=st.session_state.messages,
         stream=True
