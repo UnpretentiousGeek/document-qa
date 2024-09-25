@@ -79,7 +79,7 @@ if prompt := st.chat_input("What is up?"):
     query_response = openai_client.embeddings.create(
     input=prompt,
     model="text-embedding-3-small")
-    query_embedding = query_response['data'][0].embedding
+    query_embedding = query_response.data[0].embedding
 
     # Search for the top 3 relevant documents in the ChromaDB
     results = st.session_state.Lab4_vectorDB.query(
