@@ -57,20 +57,6 @@ if uploaded_files is not None and "Lab4_vectorDB" in st.session_state:
         st.success(f"Document '{filename}' added to the vector DB.")
 
 openai_client = st.session_state.openai_client
-query_response = openai_client.embeddings.create(
-    input=topic,
-    model="text-embedding-3-small"
-)
-query_embedding = query_response.data[0].embedding
-results = st.session_state.Lab4_vectorDB.query(
-            query_embeddings=[query_embedding],
-            n_results=3
-        )
-st.write("Top 3 relevant documents:")
-for i in range(len(results['documents'][0])):
-    doc = results['documents'][0][i]
-    doc_id = results['ids'][0][i]
-    st.write(f"The following file/syllabus might be helpful: {doc_id}")
      
 
 system_message = '''
