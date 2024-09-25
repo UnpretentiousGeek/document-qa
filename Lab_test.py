@@ -22,7 +22,7 @@ def read_pdf(file):
             pdf_content += page.extract_text()
         return file_name, pdf_content
 
-uploaded_file = st.file_uploader("Upload a document (.pdf)", type=("pdf"))
+uploaded_files = st.file_uploader("Upload a document (.pdf)", type=("pdf"))
 
 
 if "openai_client" not in st.session_state:
@@ -52,10 +52,11 @@ def add_to_collection(collection, text, filename):
     )
 
 
-if uploaded_file is not None and "Lab4_vectorDB" in st.session_state:
-    filename, text = read_pdf(uploaded_file)
-    add_to_collection(st.session_state.Lab4_vectorDB, text, filename)
-    st.success(f"Document '{filename}' added to the vector DB.")
+if uploaded_files is not None and "Lab4_vectorDB" in st.session_state:
+    for uploaded_file in uploaded_files:
+        filename, text = read_pdf(uploaded_file)
+        add_to_collection(st.session_state.Lab4_vectorDB, text, filename)
+        st.success(f"Document '{filename}' added to the vector DB.")
 
 openai_client = st.session_state.openai_client
 query_response = openai_client.embeddings.create(
