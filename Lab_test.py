@@ -109,7 +109,7 @@ if prompt := st.chat_input("What is up?"):
     
     Based on this information, please provide a detailed answer.
     """
-
+    st.session_state.messages.append({"role": "system", "content": prompts})
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     with st.chat_message("user"):
