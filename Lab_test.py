@@ -9,8 +9,6 @@ import chromadb
 
 st.title("Joy's HW4 Question Answering Chatbot")
 
-topic = st.sidebar.selectbox("Topic", ("Generative AI", "Text Mining", "Data Science Overview"))
-
 chroma_client = chromadb.PersistentClient(path="~/embeddings")
 #chroma_client = chromadb.Client()
 
@@ -74,3 +72,68 @@ for i in range(len(results['documents'][0])):
     doc_id = results['ids'][0][i]
     st.write(f"The following file/syllabus might be helpful: {doc_id}")
      
+
+system_message = '''
+You are an expert assistant for answering course-related questions.
+be clear if it you are using the knowledge gained from the context
+'''
+
+if "messages" not in st.session_state:
+    st.session_state["messages"] = \
+    [{"role": "system", "content": system_message},
+     {"role": "assistant", "content": "How can I help you?"}]
+    
+for msg in st.session_state.messages:
+    if msg["role"] != "system":    
+        chat_msg = st.chat_message(msg["role"])
+        chat_msg.write(msg["content"])
+
+if prompt := st.chat_input("What is up?"):
+
+    query_response = openai_client.embeddings.create(
+    input=prompt,
+    model="text-embedding-3-small")
+    query_embedding = query_response['data'][0]['embedding']
+
+    # Search for the top 3 relevant documents in the ChromaDB
+    results = st.session_state.Lab4_vectorDB.query(
+                query_embeddings=[query_embedding],
+                n_results=3
+            )
+    
+    relevant_documents = []
+    for i in range(len(results['documents'][0])):
+        doc_id = results['ids'][0][i]
+        relevant_text = results['documents'][0][i]  # Text of the document
+        relevant_documents.append(relevant_text)
+        st.write(f"Found relevant document: {doc_id}")
+    
+
+    context = "\n\n".join(relevant_documents)
+
+    prompts = f"""
+    The user asked: {prompt}
+    
+    Here is the relevant information from the course documents:
+
+    {context}
+    
+    Based on this information, please provide a detailed answer.
+    """
+
+    st.session_state.messages.append({"role": "user", "content": prompts})
+
+    with st.chat_message("user"):
+        st.markdown(prompt)
+
+    client = st.session_state.client
+    stream = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=st.session_state.messages,
+        stream=True
+    )
+
+    with st.chat_message("assistant"):
+        response = st.write_stream(stream)
+
+    st.session_state.messages.append({"role": "assistant", "content": response})
