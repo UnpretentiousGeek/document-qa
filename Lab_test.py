@@ -53,8 +53,8 @@ def add_to_collection(collection, text, filename):
 
 
 if uploaded_files is not None and "Lab4_vectorDB" in st.session_state:
-    for uploaded_file in uploaded_files:
-        filename, text = read_pdf(uploaded_file)
+    for i in uploaded_files:
+        filename, text = read_pdf(i)
         add_to_collection(st.session_state.Lab4_vectorDB, text, filename)
         st.success(f"Document '{filename}' added to the vector DB.")
 
