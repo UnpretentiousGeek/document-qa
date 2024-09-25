@@ -22,7 +22,7 @@ def read_pdf(file):
             pdf_content += page.extract_text()
         return file_name, pdf_content
 
-uploaded_files = st.file_uploader("Upload a document (.pdf)", type=("pdf"))
+uploaded_files = st.file_uploader("Upload a document (.pdf)", type=("pdf"), accept_multiple_files=True)
 
 
 if "openai_client" not in st.session_state:
