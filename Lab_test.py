@@ -87,7 +87,7 @@ if prompt := st.chat_input("What is up?"):
                 n_results=3
             )
     
-    relevant_documents = [" "]
+    relevant_documents = ["a"]
     for i in range(len(results['documents'][0])):
         doc_id = results['ids'][0][i]
         relevant_text = results['documents'][0][i]  # Text of the document
