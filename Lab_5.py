@@ -33,5 +33,4 @@ def get_current_weather(location, API_key):
 
 
 
-st.write(get_current_weather("Syracuse", "9f39a2530c261fcdfc2cee81821fff38
-"))
+st.write(get_current_weather("Syracuse", "9f39a2530c261fcdfc2cee81821fff38"))
