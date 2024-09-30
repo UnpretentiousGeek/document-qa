@@ -107,9 +107,8 @@ if prompt := st.chat_input("Ask about weather"):
         messages=st.session_state.messages, 
         tools= tools, 
         tool_choice="auto",
-        stream=True
     )
-    st.write(response)
+    
     response_message = response.choices[0].message
     tool_calls = response_message.tool_calls
     if tool_calls:
