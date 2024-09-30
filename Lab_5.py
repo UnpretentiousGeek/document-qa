@@ -126,16 +126,12 @@ if prompt := st.chat_input("Ask about weather"):
                 
                 Please format this message as response for chatbot and don't mention anything about suitable response for a chatbot.
                 """
-
-                # Call OpenAI again to format the raw data
-            st.session_state.messages.append({"role": "user", "content": raw_data_prompt})
-
             
             model_response_with_function_call = openai_client.chat.completions.create(
                 model="gpt-4o-mini",
                 messages=[
-                                    {"role": "system", "content": system_message},  # Send system message again
-                                    {"role": "user", "content": raw_data_prompt}  # Send raw data prompt (not displayed to the user)
+                                    {"role": "system", "content": system_message},
+                                    {"role": "user", "content": raw_data_prompt}
                                 ],
                                 stream= True
             )
@@ -145,7 +141,7 @@ if prompt := st.chat_input("Ask about weather"):
             st.session_state.messages.append({"role": "assistant", "content": model_response_with_function_call})
     else: 
         with st.chat_message("assistant"):
-            response = st.write_stream(response)
+            response = st.write_stream(response.content)
 
         
 
