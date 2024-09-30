@@ -3,6 +3,11 @@ import streamlit as st
 import json
 from openai import OpenAI
 
+system_message = """
+Don't make assumptions about what values to plug into functions. 
+Ask for clarification if a user request is ambiguous.
+"""
+
 if 'client' not in st.session_state:
     api_key = st.secrets['openai_key']
     st.session_state.client = OpenAI(api_key=api_key)
@@ -64,10 +69,10 @@ tools = [
         }
     }]
 
-st.session_state.messages.append({"role": "system", "content": "Don't make assumptions about what values to plug into functions. Ask for clarification if a user request is ambiguous."})
 if "messages" not in st.session_state:
     st.session_state["messages"] = \
-    [{"role": "assistant", "content": "Ask Something?"}]
+    [{"role": "system", "content":system_message},
+        {"role": "assistant", "content": "Ask Something?"}]
 
 for msg in st.session_state.messages:
     if msg["role"] != "system":    
