@@ -119,11 +119,10 @@ if prompt := st.chat_input("Ask about weather"):
             results = get_current_weather(arguments['location'], arguments['format'])
             raw_data_prompt = f"""
                 Here is the raw weather data for {arguments['location']}:
-                Temperature: {results['temp']}
+                Temperature: {results['temperature']}
                 Feels like: {results['feels_like']}
-                Description: {results['description']}
                 Humidity: {results['humidity']}
-                Units: {results['units']}
+                Units: {results['unit']}
                 
                 Please format this in a user-friendly message.
                 """
