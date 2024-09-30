@@ -116,11 +116,10 @@ if prompt := st.chat_input("Ask about weather"):
         tool_call_id = tool_calls[0].id
         tool_function_name = tool_calls[0].function.name
         arguments = json.loads(tool_calls[0].function.arguments)
-        st.write("Tool call arguments:", arguments)  # Use this to inspect the structure
 
         if tool_function_name == 'get_current_weather':
             results = get_current_weather(arguments['location'], arguments['format'])
-            
+            st.write(results)
             st.session_state.messages.append({
                 "role":"tool", 
                 "tool_call_id":tool_call_id, 
