@@ -86,7 +86,7 @@ if prompt := st.chat_input("Ask about weather"):
 
     response = openai_client.chat.completions.create(
         model='gpt-4o', 
-        messages=prompt, 
+        messages=st.session_state.messages, 
         tools= tools, 
         tool_choice="auto",
         stream = True
