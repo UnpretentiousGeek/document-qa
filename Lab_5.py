@@ -111,31 +111,39 @@ if prompt := st.chat_input("Ask about weather"):
     response_message = response.choices[0].message
     tool_calls = response_message.tool_calls
     if tool_calls:
-        st.session_state.messages.append({"role": "tool_calls", "content": response_message})
         tool_call_id = tool_calls[0].id
         tool_function_name = tool_calls[0].function.name
         arguments = json.loads(tool_calls[0].function.arguments)
 
         if tool_function_name == 'get_current_weather':
             results = get_current_weather(arguments['location'], arguments['format'])
-            st.session_state.messages.append({
-                "role":"tool", 
-                "tool_call_id":tool_call_id, 
-                "name": tool_function_name, 
-                "content":json.dumps(results)
-            })
+            raw_data_prompt = f"""
+                Here is the raw weather data for {arguments['location']}:
+                Temperature: {results['temp']}
+                Feels like: {results['feels_like']}
+                Description: {results['description']}
+                Humidity: {results['humidity']}
+                Units: {results['units']}
+                
+                Please format this in a user-friendly message.
+                """
+
+                # Call OpenAI again to format the raw data
+            st.session_state.messages.append({"role": "user", "content": raw_data_prompt})
+
             
             model_response_with_function_call = openai_client.chat.completions.create(
                 model="gpt-4o-mini",
-                messages=st.session_state.messages,
-                stream= True
+                messages=[
+                                    {"role": "system", "content": system_message},  # Send system message again
+                                    {"role": "user", "content": raw_data_prompt}  # Send raw data prompt (not displayed to the user)
+                                ],
+                                stream= True
             )
             with st.chat_message("assistant"):
                 model_response_with_function_call = st.write_stream(model_response_with_function_call)
 
             st.session_state.messages.append({"role": "assistant", "content": model_response_with_function_call})
-        else: 
-            st.write(f"Error: function {tool_function_name} does not exist")
     else: 
         with st.chat_message("assistant"):
             response = st.write_stream(response)
