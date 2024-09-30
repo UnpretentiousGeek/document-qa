@@ -120,9 +120,7 @@ if prompt := st.chat_input("Ask about weather"):
             results = get_current_weather(arguments['location'], arguments['format'])
             st.write(results)
             st.session_state.messages.append({
-                "role":"tool", 
-                "tool_call_id":tool_call_id, 
-                "name": tool_function_name, 
+                "role":"assistant",
                 "content":json.dumps(results)
             })
             
