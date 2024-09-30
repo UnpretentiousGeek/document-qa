@@ -101,6 +101,8 @@ openai_client = st.session_state.client
 
 if prompt := st.chat_input("Ask about weather"):
     st.session_state.messages.append({"role": "user", "content": prompt})
+    with st.chat_message("user"):
+        st.write(prompt)
 
     response = openai_client.chat.completions.create(
         model='gpt-4o-mini', 
@@ -143,7 +145,6 @@ if prompt := st.chat_input("Ask about weather"):
     else: 
         with st.chat_message("assistant"):
             st.write(response_message.content)
-
         st.session_state.messages.append({"role": "assistant", "content": response_message.content})
 
         
