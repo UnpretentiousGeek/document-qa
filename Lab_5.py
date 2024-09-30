@@ -109,6 +109,7 @@ if prompt := st.chat_input("Ask about weather"):
         tool_choice="auto",
     )
     response_message = response.choices[0].message
+    st.session_state.messages.append({"role": "assistant", "content": response_message.content})
     tool_calls = response_message.tool_calls
     if tool_calls:
         
@@ -118,18 +119,11 @@ if prompt := st.chat_input("Ask about weather"):
 
         if tool_function_name == 'get_current_weather':
             results = get_current_weather(arguments['location'], arguments['format'])
-            result_text = (
-                f"Location: {results['location']}\n"
-                f"Temperature: {results['temperature']} {results['unit']}\n"
-                f"Feels like: {results['feels_like']} {results['unit']}\n"
-                f"Min Temp: {results['temp_min']} {results['unit']}\n"
-                f"Max Temp: {results['temp_max']} {results['unit']}\n"
-                f"Humidity: {results['humidity']}%"
-            )
-            
             st.session_state.messages.append({
-                "role": "assistant",  # Changed to 'assistant'
-                "content": result_text  # The human-readable result text
+                "role":"tool", 
+                "tool_call_id":tool_call_id, 
+                "name": tool_function_name, 
+                "content":json.dumps(results)
             })
             
             model_response_with_function_call = openai_client.chat.completions.create(
@@ -147,7 +141,7 @@ if prompt := st.chat_input("Ask about weather"):
         with st.chat_message("assistant"):
             response = st.write_stream(response)
 
-        st.session_state.messages.append({"role": "assistant", "content": response_message})
+        
 
 
 
