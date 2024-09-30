@@ -142,7 +142,7 @@ if prompt := st.chat_input("Ask about weather"):
             st.session_state.messages.append({"role": "assistant", "content": model_response_with_function_call})
     else: 
         with st.chat_message("assistant"):
-            response_message = st.write_stream(response_message.content)
+            response_message = st.write(response_message.content)
 
         st.session_state.messages.append({"role": "assistant", "content": response_message})
 
