@@ -1,6 +1,7 @@
 import requests
 import streamlit as st
 import json
+from openai import OpenAI
 
 if 'client' not in st.session_state:
     api_key = st.secrets['openai_key']
@@ -38,7 +39,6 @@ def get_current_weather(location, API_key):
 
 
 
-st.write(get_current_weather("Syracuse", "9f39a2530c261fcdfc2cee81821fff38"))
 
 tools = [
     {
@@ -64,6 +64,7 @@ tools = [
         }
     }]
 
+st.session_state.messages.append({"role": "system", "content": "Don't make assumptions about what values to plug into functions. Ask for clarification if a user request is ambiguous."})
 if "messages" not in st.session_state:
     st.session_state["messages"] = \
     [{"role": "assistant", "content": "Ask Something?"}]
@@ -93,34 +94,32 @@ if prompt := st.chat_input("Ask about weather"):
         tool_function_name = tool_calls[0].function.name
         tool_query_string = json.loads(tool_calls[0].function.arguments)['query']
 
-        # Step 3: Call the function and retrieve results. Append the results to the messages list.      
         if tool_function_name == 'get_current_weather':
-            results = get_current_weather(City, st.secrets[""])
+            results = get_current_weather(tool_query_string['location'], st.secrets["weather_key"])
             
-            messages.append({
+            st.session_state.messages.append({
                 "role":"tool", 
                 "tool_call_id":tool_call_id, 
                 "name": tool_function_name, 
                 "content":results
             })
             
-            # Step 4: Invoke the chat completions API with the function response appended to the messages list
-            # Note that messages with role 'tool' must be a response to a preceding message with 'tool_calls'
-            model_response_with_function_call = client.chat.completions.create(
+            model_response_with_function_call = openai_client.chat.completions.create(
                 model="gpt-4o",
-                messages=messages,
-            )  # get a new response from the model where it can see the function response
-            print(model_response_with_function_call.choices[0].message.content)
+                messages=st.session_state.messages,
+                stream= True
+            )
+            with st.chat_message("assistant"):
+                model_response_with_function_call = st.write_stream(model_response_with_function_call)
+
+            st.session_state.messages.append({"role": "assistant", "content": model_response_with_function_call})
         else: 
             print(f"Error: function {tool_function_name} does not exist")
     else: 
-        # Model did not identify a function to call, result can be returned to the user 
-        print(response_message.content) 
+        with st.chat_message("assistant"):
+            response = st.write_stream(response)
 
-    with st.chat_message("assistant"):
-        response = st.write_stream(response)
-
-    st.session_state.messages.append({"role": "assistant", "content": response})
+        st.session_state.messages.append({"role": "assistant", "content": response})
 
 
 
