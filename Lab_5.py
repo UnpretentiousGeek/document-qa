@@ -124,7 +124,7 @@ if prompt := st.chat_input("Ask about weather"):
                 Humidity: {results['humidity']}
                 Units: {results['unit']}
                 
-                Please format this in a user-friendly message.
+                Please format this message as response for chatbot.
                 """
 
                 # Call OpenAI again to format the raw data
