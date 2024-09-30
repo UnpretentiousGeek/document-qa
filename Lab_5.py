@@ -109,6 +109,7 @@ if prompt := st.chat_input("Ask about weather"):
         tool_choice="auto",
     )
     response_message = response.choices[0].message
+    st.write(response_message)
     tool_calls = response_message.tool_calls
     if tool_calls:
         
