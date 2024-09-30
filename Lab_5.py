@@ -20,7 +20,7 @@ def get_current_weather(location, format):
 
 
     urlbase = "https://api.openweathermap.org/data/2.5/"
-    urlweather = f"weather?q={location}&appid={st.secrets["weather_key"]}"
+    urlweather = f"weather?q={location}&appid={st.secrets['weather_key']}"
     url = urlbase + urlweather
 
 
