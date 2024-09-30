@@ -123,7 +123,7 @@ if prompt := st.chat_input("Ask about weather"):
                 "role":"tool", 
                 "tool_call_id":tool_call_id, 
                 "name": tool_function_name, 
-                "content":results
+                "content":json.dumps(results)
             })
             
             model_response_with_function_call = openai_client.chat.completions.create(
