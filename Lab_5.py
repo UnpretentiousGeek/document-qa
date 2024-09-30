@@ -79,7 +79,7 @@ for msg in st.session_state.messages:
         chat_msg = st.chat_message(msg["role"])
         chat_msg.write(msg["content"])
 
-openai_client = st.session_state.openai_client
+openai_client = st.session_state.client
 
 if prompt := st.chat_input("Ask about weather"):
     st.session_state.messages.append({"role": "user", "content": prompt})
