@@ -97,7 +97,11 @@ if prompt := st.chat_input("Ask about weather"):
         
         tool_call_id = tool_calls[0].id
         tool_function_name = tool_calls[0].function.name
-        tool_query_string = json.loads(tool_calls[0].function.arguments)['query']
+        arguments = json.loads(tool_calls[0].function.arguments)
+        st.write("Tool call arguments:", arguments)  # Use this to inspect the structure
+        
+        # Check if 'query' exists, else log and handle the error
+        tool_query_string = arguments.get('query', None)
 
         if tool_function_name == 'get_current_weather':
             results = get_current_weather(tool_query_string['location'], st.secrets["weather_key"])
