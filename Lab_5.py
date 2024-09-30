@@ -109,12 +109,9 @@ if prompt := st.chat_input("Ask about weather"):
         tool_choice="auto",
     )
     response_message = response.choices[0].message
-    st.session_state.messages.append({"role": "assistant", "content": response_message.content})
-    st.write(response_message)
-    st.write(response_message.content)
     tool_calls = response_message.tool_calls
     if tool_calls:
-        
+        st.session_state.messages.append({"role": "tool_calls", "content": response_message})
         tool_call_id = tool_calls[0].id
         tool_function_name = tool_calls[0].function.name
         arguments = json.loads(tool_calls[0].function.arguments)
