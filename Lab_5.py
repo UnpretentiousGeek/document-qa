@@ -125,9 +125,9 @@ if prompt := st.chat_input("Ask about weather"):
             print(f"Error: function {tool_function_name} does not exist")
     else: 
         with st.chat_message("assistant"):
-            response = st.write(response)
+            response_message = st.write(response_message)
 
-        st.session_state.messages.append({"role": "assistant", "content": response})
+        st.session_state.messages.append({"role": "assistant", "content": response_message})
 
 
 
