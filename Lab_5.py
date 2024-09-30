@@ -110,6 +110,7 @@ if prompt := st.chat_input("Ask about weather"):
     )
     response_message = response.choices[0].message
     st.session_state.messages.append({"role": "assistant", "content": response_message.content})
+    st.write(response_message.content)
     tool_calls = response_message.tool_calls
     if tool_calls:
         
