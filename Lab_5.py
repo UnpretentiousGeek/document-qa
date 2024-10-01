@@ -127,13 +127,12 @@ if prompt := st.chat_input("Ask about weather"):
                 Humidity: {results['humidity']}
                 Units: {results['unit']}
                 
-                Please format this message as response for chatbot and don't mention anything about suitable response for a chatbot.
+                Based on this weather data, please provide suggestions on appropriate clothes to wear today.
                 """
             
             model_response_with_function_call = openai_client.chat.completions.create(
                 model="gpt-4o-mini",
                 messages=[
-                                    {"role": "system", "content": system_message},
                                     {"role": "user", "content": raw_data_prompt}
                                 ],
                                 stream= True
