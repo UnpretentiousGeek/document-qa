@@ -129,12 +129,10 @@ if prompt := st.chat_input("Ask about weather"):
                 
                 Based on this weather data, please provide suggestions on appropriate clothes to wear today.
                 """
-            
+            st.session_state.messages.append({"role": "system", "content": raw_data_prompt})
             model_response_with_function_call = openai_client.chat.completions.create(
                 model="gpt-4o-mini",
-                messages=[
-                                    {"role": "user", "content": raw_data_prompt}
-                                ],
+                messages=st.session_state.messages,
                                 stream= True
             )
             with st.chat_message("assistant"):
