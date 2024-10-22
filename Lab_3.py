@@ -44,7 +44,7 @@ for msg in st.session_state.messages:
         chat_msg = st.chat_message(msg["role"])
         chat_msg.write(msg["content"])
 
-if prompt := col12.chat_input("What is up?"):
+if prompt := col2.chat_input("What is up?"):
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     with st.chat_message("user"):
