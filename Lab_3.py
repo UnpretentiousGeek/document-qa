@@ -1,6 +1,8 @@
 import streamlit as st
 from openai import OpenAI
 
+col1, col2 = st.columns([1, 6])
+
 system_message = '''
 You are a bot that always gets a user question, then answer
 
@@ -42,7 +44,7 @@ for msg in st.session_state.messages:
         chat_msg = st.chat_message(msg["role"])
         chat_msg.write(msg["content"])
 
-if prompt := st.chat_input("What is up?"):
+if prompt := col12.chat_input("What is up?"):
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     with st.chat_message("user"):
@@ -62,3 +64,5 @@ if prompt := st.chat_input("What is up?"):
 
     if len(st.session_state.messages) > 5:
         st.session_state.messages = st.session_state.messages[-5:]
+
+col1.button("take image")
