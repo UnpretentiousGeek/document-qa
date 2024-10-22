@@ -1,7 +1,7 @@
 import streamlit as st
 from openai import OpenAI
 
-col1, col2 = st.columns([1, 6])
+
 
 system_message = '''
 You are a bot that always gets a user question, then answer
@@ -43,6 +43,8 @@ for msg in st.session_state.messages:
     if msg["role"] != "system":    
         chat_msg = st.chat_message(msg["role"])
         chat_msg.write(msg["content"])
+
+col1, col2 = st.columns([1, 6])
 
 if prompt := col2.chat_input("What is up?"):
     st.session_state.messages.append({"role": "user", "content": prompt})
